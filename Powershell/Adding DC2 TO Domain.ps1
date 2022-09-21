@@ -1,0 +1,1 @@
+﻿Install-ADDSDomainController -DomainName "intranet.mijnschool.be" -Credential (Get-Credential "INTRANET\Administrator")
