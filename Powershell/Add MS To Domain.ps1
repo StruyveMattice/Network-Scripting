@@ -1,0 +1,1 @@
+Add-Computer -Domain "intranet.mijnschool.be" -Credential (Get-Credential "INTRANET\Administrator") -Restart -NewName 'MS'
