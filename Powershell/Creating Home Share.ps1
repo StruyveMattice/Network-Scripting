@@ -1,5 +1,18 @@
-Write-Host "Creating Home Share on MS..."
+$Folder = 'C:\Homes'
 
-New-SmbShare -Name "Homes" -Path "C:\" -FullAccess "Everyone"
+if (Test-Path -Path $Folder) 
+{
+    "Folder already exists"
+} 
 
-Write-Host "Home Share Created"
+else 
+{
+    Write-Host "Creating Share ..."
+
+    New-item "C:\Homes" -itemtype directory
+
+    New-SmbShare -Name "Homes" -Path "C:\Homes" -FullAccess "Everyone"
+    
+    Write-Host "Home Share Created"
+}
+

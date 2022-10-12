@@ -9,10 +9,10 @@ Write-Host 'Exclusion Range Added'
 Set-DhcpServerV4OptionValue -DnsServer 192.168.1.2,192.168.1.3 -Router 192.168.1.1
 Write-Host 'Added DNS Server and Router'
 
-Set-DhcpServerv4Scope -ScopeId 192.168.1.10 -LeaseDuration 192:00:00 #8 Dagen
+Set-DhcpServerv4Scope -ScopeId 192.168.1.0 -LeaseDuration 192:00:00 #8 Dagen
 Write-Host 'Added Lease Duration'
 
-Add-DhcpServerv4Reservation -ScopeId 192.168.1.10 -IPAddress 192.168.1.100 -ClientId "b8-e9-37-3e-55-86"
+Add-DhcpServerv4Reservation -ScopeId 192.168.1.0 -IPAddress 192.168.1.100 -ClientId "b8-e9-37-3e-55-86"
 Write-Host 'Reservation Added'
 
 Write-Host 'Restarting Service...'
