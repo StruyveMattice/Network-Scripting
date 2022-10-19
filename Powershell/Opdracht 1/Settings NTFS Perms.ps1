@@ -1,4 +1,4 @@
-﻿#Get-Acl C:\Homes | Format-List#(Get-Acl C:\Homes).Access#Disabling Inheritance$acl = Get-Acl -Path "C:\Homes"
+﻿#Get-Acl C:\Homes | Format-List#(Get-Acl C:\Homes).Access$folder = "C:\Homes"#Disabling Inheritance$acl = Get-Acl -Path "C:\Homes"
 $acl.SetAccessRuleProtection($True, $True)
 Set-Acl -Path $folder -AclObject $acl#Adding Authenticated Users$identity = 'Authenticated Users'
 $rights = 'Read' #Other options: [enum]::GetValues('System.Security.AccessControl.FileSystemRights')
