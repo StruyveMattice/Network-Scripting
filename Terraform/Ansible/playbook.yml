@@ -1,0 +1,92 @@
+# Ubuntu webserver playbook
+- name: Ubuntu webserver
+  hosts: webservers
+  tasks:
+    - name: updating and upgrading apt
+      become: true  
+      become_method: sudo
+      apt:
+        update_cache: yes
+        upgrade: yes
+        autoclean: yes
+      
+    - name: installing nginx
+      become: true  
+      apt:
+        name: nginx
+        state: present
+
+    - name: starting nginx
+      become: true  
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+        
+    - name: changing webpage
+      become: true  
+      copy:
+        content: "Hello World from {{ ansible_hostname }}"
+        dest: /var/www/html/index.nginx-debian.html
+        
+    - name: reload nginx
+      become: true  
+      service:
+        name: nginx
+        state: reloaded
+        
+#Loadbalancer playbook
+- name: Ubuntu loadbalancer
+  hosts: loadbalancers
+  tasks:
+    - name: updating and upgrading apt
+      become: true  
+      apt:
+       update_cache: yes
+       upgrade: dist
+       
+    - name: installing nginx
+      become: true  
+      apt:
+        name: nginx
+        state: present
+
+    - name: starting nginx
+      become: true  
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: setting config file
+      become: true  
+      copy:
+        src: ./nginx.conf
+        dest: /etc/nginx/nginx.conf
+
+    - name: opening port 80
+      become: true  
+      ufw:
+        rule: allow
+        port: 80
+        proto: tcp
+
+    - name: opening port 443
+      become: true  
+      ufw:
+        rule: allow
+        port: 443
+        proto: tcp
+
+    - name: enabling ufw
+      become: true  
+      ufw:
+        state: enabled
+
+    - name: ssh_from_management
+      become: true  
+      ufw:
+        rule: allow
+        from_ip: 192.168.1.10
+        proto: tcp
+        port: 22
