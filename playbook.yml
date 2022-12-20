@@ -1,0 +1,24 @@
+- hosts: all
+  become: true
+  pre_tasks:
+    - name: Update repo cache (Ubuntu)
+      apt:
+        update_cache: yes
+      changed_when: false
+      when: ansible_distribution == "Ubuntu"
+  
+    - name: Update repo cache (CentOS)
+      yum:
+        update_cache: yes
+      changed_when: false
+      when: ansible_distribution == "CentOS"
+  
+- hosts: webservers
+  become: true
+  roles:
+    - webservers
+
+- hosts: loadbalancers
+  become: true
+  roles:
+    - loadbalancers

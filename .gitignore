@@ -2,8 +2,8 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=terraform,ansible
 
 ### Ansible ###
-*.retry
-
+# Ansible inventory file
+inventory.ini
 ### Terraform ###
 # Local .terraform directories
 **/.terraform/*

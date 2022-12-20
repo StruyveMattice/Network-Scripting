@@ -1,0 +1,44 @@
+- name: Installing firewall and webserver packages
+  tags: webserver
+  package:
+    name:
+      - nginx
+    state: present
+    update_cache: yes
+
+- name: Starting nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Changing webpage Ubuntu
+  copy:
+    content: "Hello World from {{ ansible_hostname }}"
+    dest: /var/www/html/index.nginx-debian.html
+  register: webcontent
+
+- name: Restarting Nginx
+  service:
+    name: nginx
+    state: restarted
+  when: webcontent.changed
+
+- name: opening port 80
+  become: true  
+  ufw:
+    rule: allow
+    port: 80
+    proto: tcp
+    from_ip: 192.168.1.100
+
+- name: Allowing SSH from mgmgt
+  ufw:
+    rule: allow
+    port: 22
+    from_ip: 192.168.1.10
+    
+- name: enabling ufw
+  become: true  
+  ufw:
+    state: enabled

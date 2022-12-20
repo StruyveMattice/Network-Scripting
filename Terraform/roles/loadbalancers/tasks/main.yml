@@ -1,0 +1,44 @@
+- name: Installing Nginx
+  package:
+    name:
+      - nginx
+    state: present
+    update_cache: yes
+
+- name: Starting Nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Copying config file
+  copy:
+    src: ./nginx.conf
+    dest: /etc/nginx/nginx.conf
+  register: nginxconfig
+  
+- name: Restart Nginx
+  service:
+    name: nginx
+    state: restarted
+  when: nginxconfig.changed
+
+- name: opening port 80
+  become: true  
+  ufw:
+    rule: allow
+    port: 80
+    proto: tcp
+
+- name: Allowing SSH from mgmgt
+  ufw:
+    rule: allow
+    port: 22
+    from_ip: 192.168.1.10
+    
+- name: enabling ufw
+  become: true  
+  ufw:
+    state: enabled
+    
+ 

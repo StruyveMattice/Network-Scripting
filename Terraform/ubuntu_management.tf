@@ -27,7 +27,6 @@ resource "azurerm_network_interface" "management-nic" {
   }
 }
 
-
 #Create a ubuntu 18.04 VM
 resource "azurerm_linux_virtual_machine" "management-vm" {
   name                            = "management-vm"
@@ -52,7 +51,7 @@ resource "azurerm_linux_virtual_machine" "management-vm" {
   }
 
   connection {
-    host     = "192.168.1.10"
+    host     = "${azurerm_public_ip.management-pip.ip_address}"
     type     = "ssh"
     user     = var.ubuntu_user
     password = var.ubuntu_pass

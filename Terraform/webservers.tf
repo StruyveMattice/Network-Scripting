@@ -41,10 +41,5 @@ resource "azurerm_linux_virtual_machine" "webserver-vm" {
     sku       = "18.04-LTS"
     version   = "latest"
   }
-
-  admin_ssh_key {
-    username   = "mattice"
-    public_key = file("~/.ssh/id_rsa.pub")
-  }
 }
 
